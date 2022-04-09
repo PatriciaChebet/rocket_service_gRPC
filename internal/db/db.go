@@ -19,11 +19,15 @@ func New() (Store, error) {
 	dbHost := os.Getenv("DB_HOST")
 	dbTable := os.Getenv("DB_TABLE")
 	dbPort := os.Getenv("DB_PORT")
-	dbSSLMode := os.Getenv("DB_SSL_MODE")
+	//dbSSLMode := os.Getenv("DB_SSL_MODE")
 
 	connectionString := fmt.Sprintf(
-		"Host=%s port=%s user=%s dbname=%s password=%s sslmode=%s",
-		dbHost, dbPort, dbUsername, dbTable, dbPassword, dbSSLMode)
+		"postgres://%v:%v@%v:%v/%v?sslmode=disable",
+		dbUsername,
+		dbPassword,
+		dbHost,
+		dbPort,
+		dbTable)
 
 	db, err := sqlx.Connect("postgres", connectionString)
 	if err != nil {
